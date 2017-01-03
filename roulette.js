@@ -33,14 +33,86 @@ rPrototype.spin = function(bet, betType) {
   var actualNumber = Math.floor(Math.random() * 37);
 
   if (typeof betType === 'string') {
-    this[betType].call(this);
+
+    this[betType].call(this, bet, actualNumber);
+
   } else if (typeof betType === 'number') {
+
     this.numberedPayout(bet, actualNumber, betType);
+
   }
 
 };
 
-rPrototype.even = function() {};
+rPrototype.even = function(bet, actualNumber) {
+  if(actualNumber % 2 === 0) {
+    var winnings = bet * 2;
+    this.bankroll += winnings;
+    this.win(winnings, actualNumber);
+  } else {
+    this.lose(actualNumber);
+  }
+};
+
+rPrototype.odd = function(bet, actualNumber) {
+  if(actualNumber % 2 !== 0) {
+    var winnings = bet * 2;
+    this.bankroll += winnings;
+    this.win(winnings, actualNumber);
+  } else {
+    this.lose(actualNumber);
+  }
+};
+
+rPrototype['1 to 18'] = function(bet, actualNumber) {
+  if(actualNumber > 0 && actualNumber <= 18) {
+    var winnings = bet * 2;
+    this.bankroll += winnings;
+    this.win(winnings, actualNumber);
+  } else {
+    this.lose(actualNumber);
+  }
+};
+
+rPrototype['19 to 36'] = function(bet, actualNumber) {
+  if(actualNumber > 18 && actualNumber <= 36) {
+    var winnings = bet * 2;
+    this.bankroll += winnings;
+    this.win(winnings, actualNumber);
+  } else {
+    this.lose(actualNumber);
+  }
+};
+
+rPrototype['1st 12'] = function(bet, actualNumber) {
+  if(actualNumber > 0 && actualNumber <= 12) {
+    var winnings = bet * 3;
+    this.bankroll += winnings;
+    this.win(winnings, actualNumber);
+  } else {
+    this.lose(actualNumber);
+  }
+};
+
+rPrototype['2nd 12'] = function(bet, actualNumber) {
+  if(actualNumber > 12 && actualNumber <= 24) {
+    var winnings = bet * 3;
+    this.bankroll += winnings;
+    this.win(winnings, actualNumber);
+  } else {
+    this.lose(actualNumber);
+  }
+};
+
+rPrototype['3rd 12'] = function(bet, actualNumber) {
+  if(actualNumber > 24 && actualNumber <= 36) {
+    var winnings = bet * 3;
+    this.bankroll += winnings;
+    this.win(winnings, actualNumber);
+  } else {
+    this.lose(actualNumber);
+  }
+};
 
 rPrototype.numberedPayout = function(bet, actualNumber, betNumber) {
 
@@ -60,7 +132,7 @@ rPrototype.win = function(winnings, actualNumber) {
 };
 
 rPrototype.lose = function(actualNumber) {
-  console.log("You Lose, the spin was " + actualNumber);  
+  console.log("You Lose, the spin was " + actualNumber);
 };
 
 rPrototype.buyIn = function(amount) {
@@ -69,6 +141,4 @@ rPrototype.buyIn = function(amount) {
 };
 
 var r = new Roulette(100);
-r.myBankroll();
-r.spin(20, 12);
 
