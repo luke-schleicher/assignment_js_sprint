@@ -5,7 +5,7 @@ function Roulette(startingBankroll) {
 
 }
 
-var rPrototype = Roulette.prototype = {};
+var rPrototype = Roulette.prototype;
 
 rPrototype.myBankroll = function() {
   return "You have $" + this.bankroll;
@@ -20,6 +20,7 @@ rPrototype.myBankroll = function() {
 "2nd 12" (3:1)
 "3rd 12" (3:1)
 */
+
 rPrototype.spin = function(bet, betType) {
 
   if (this.bankroll - bet < 0){
@@ -32,29 +33,42 @@ rPrototype.spin = function(bet, betType) {
   var actualNumber = Math.floor(Math.random() * 37);
 
   if (typeof betType === 'string') {
-
-  } else if(typeof betType === 'number') {
-
+    this[betType].call(this);
+  } else if (typeof betType === 'number') {
+    this.numberedPayout(bet, actualNumber, betType);
   }
 
 };
 
-rPrototype.numberedPayout = function(actualNumber, betNumber) {
+rPrototype.even = function() {};
+
+rPrototype.numberedPayout = function(bet, actualNumber, betNumber) {
 
   if (betNumber === actualNumber) {
     var winnings = bet * 35;
     this.bankroll += winnings;
-    console.log("You win $" + winnings + ", the spin was " + actualNumber);
-    console.log("You have $" + this.bankroll);
+    this.win(winnings, actualNumber);
   } else {
-    console.log("You Lose, the spin was " + actualNumber);
+    this.lose(actualNumber);
   }
 
-}
+};
+
+rPrototype.win = function(winnings, actualNumber) {
+  console.log("You win $" + winnings + ", the spin was " + actualNumber);
+  console.log("You have $" + this.bankroll);
+};
+
+rPrototype.lose = function(actualNumber) {
+  console.log("You Lose, the spin was " + actualNumber);  
+};
 
 rPrototype.buyIn = function(amount) {
   this.bankroll += amount;
   console.log("You bought in $" + amount + ". You have $" + this.bankroll);
 };
 
+var r = new Roulette(100);
+r.myBankroll();
+r.spin(20, 12);
 
