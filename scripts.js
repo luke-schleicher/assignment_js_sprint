@@ -2,7 +2,7 @@
 
 var sprintFunctions = {
   largestEl: function(array){
-    var largest = array[0];  
+    var largest = array[0];
     for (var i = 1; i < array.length; i++) {
       if (array[i] > largest) {
         largest = array[i];
@@ -10,8 +10,8 @@ var sprintFunctions = {
     }
     return largest;
   },
-  
-  reversed: function(string){  
+
+  reversed: function(string){
     var reversed = new Array(string.length);
     var characters = string.split('');
     for (var i = 0; i < characters.length; i++) {
@@ -20,14 +20,11 @@ var sprintFunctions = {
     return reversed.join('');
   },
 
-  loudSnakeCase: function(string){  
+  loudSnakeCase: function(string){
     var snakeCase = [];
     var characters = string.split('');
     var punctuation = ['.', '!'];
     for (var i = 0; i < characters.length; i++) {
-      // if first letter, capitalize
-      // if punctuation, remove
-      // if space, remove and replace with underscore
       if (characters[i] === ' ') {
         if (snakeCase[i - 1] !== '_') {
           snakeCase[i] = '_';
@@ -43,20 +40,65 @@ var sprintFunctions = {
     return snakeCase.join('');
   },
 
-  compareArrays: function(){ 
-    // your code here (replace the return)
-    return "Finish compareArrays first!" 
+  compareArrays: function(array1, array2) {
+    if (array1.length !== array2.length) {
+      return false;
+    }
+    for(var index = 0; index < array1.length; index++) {
+      if (array1[index] !== array2[index]) {
+        return false;
+      }
+    }
+    return true;
   },
 
-  fizzBuzz: function(){  
-    // your code here
+  fizzBuzz: function(number){
+    var result = new Array(number);
+
+    for(var current = 1; current <= number; current++) {
+      if (current % 3 === 0 && current % 5 === 0){
+        result[current - 1] = 'FIZZBUZZ';
+      } else if (current % 3 === 0) {
+        result[current - 1] = 'FIZZ';
+      } else if (current % 5 === 0) {
+        result[current - 1] = 'BUZZ';
+      } else {
+        result[current - 1] = current;
+      }
+    }
+
+    return result;
   },
 
-  myMap: function(){  
-    // your code here
+  myMap: function(array, funktion){
+    var map = new Array(array.length);
+
+    for(var index = 0; index < array.length; index++) {
+      map[index] = funktion(array[index]);
+    }
+
+    return map;
   },
 
-  primes: function(){  
-    // your code here
+  primes: function(number){
+    var primes = [];
+
+    var isPrime = function(number) {
+      var checkLimit = Math.sqrt(number);
+      for(var denominator = 2; denominator <= checkLimit; denominator++) {
+        if (number % denominator === 0) {
+          return false;
+        }
+      }
+      return true;
+    };
+
+    for(var current = 2; current < number; current++) {
+      if (isPrime(current)) {
+        primes.push(current);
+      }
+    }
+
+    return primes;
   },
 }
