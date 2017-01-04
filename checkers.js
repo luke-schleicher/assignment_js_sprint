@@ -1,8 +1,10 @@
 
-function Board(height, width) {
-  this.height = height;
-  this.width = width;
-
+/*
+ * BOARD
+*/
+function Board() {
+  this.height = 8;
+  this.width = 8;
   this.grid = [new Array(8), new Array(8),
               new Array(8), new Array(8),
               new Array(8), new Array(8),
@@ -16,13 +18,55 @@ bProto.squareContents = function(xCoordinate, yCoordinate) {
 };
 
 bProto.rows = function() {
+
   var rows = new Array(this.height);
-  for (var rowNumber = 0; rowNumber < rows.length; rowNumber++) {
+
+  for(var rowNumber = 0; rowNumber < rows.length; rowNumber++) {
+
     var row = new Array(this.width);
-    for (var colNumber = 0; colNumber < row.length; colNumber++) {
-      this.grid[colNumber][rowNumber];
+
+    rows[rowNumber] = row;
+
+    for(var colNumber = 0; colNumber < row.length; colNumber++) {
+
+      row[colNumber] = this.columns()[colNumber][rowNumber];
+
     }
   }
+
+  return rows;
+};
+
+bProto.columns = function() {
+  return this.grid;
+};
+
+bProto.render = function() {
+  var rows = this.rows();
+
+  for(var rowNumber = rows.length - 1; rowNumber >= 0; rowNumber--) {
+    console.log("\n" + this.visualizeRow(rows[rowNumber], rowNumber));
+  }
+
+};
+
+bProto.visualizeRow(row, rowNumber) {
+
+  var rowVisualization = row.map(function(contents, index) {
+
+    if (contents) {
+      return contents.symbol;
+    } else {
+      if (index % 2 === 0) {
+        return '#';
+      } else {
+        return ' ';
+      }
+    }
+
+  });
+
+  return rowVisualization.join('');
 };
 
 function Piece(playerNumber, symbol) {
@@ -31,7 +75,7 @@ function Piece(playerNumber, symbol) {
 }
 
 function Checkers() {
-  this.board = new Board(8, 8);
+  this.board = new Board();
   this.setBoard = function(setTopPieces, setBottomPieces) {
     this.setTopPieces();
     this.setBottomPieces();
@@ -42,12 +86,8 @@ function Checkers() {
 var cProto = Checkers.prototype;
 
 cProto.setTopPieces = function() {
-
-  //
-
   var rowOffset = rowNumber % 2 === 0 ? 0 : 1;
+};
 
-}
-
-
+var board = new Board(8, 8);
 
